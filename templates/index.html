@@ -1,0 +1,119 @@
+{% extends "baseTemplate.html" %}
+
+{% block content %}
+<!-- Header-->
+<header>
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <!-- Slide One - Set the background image for this slide in the line below -->
+            <div class="carousel-item active"
+                 style="background-image: url('http://secureservercdn.net/198.71.233.106/6zq.9cd.myftpupload.com/wp-content/uploads/2019/09/cropped-logo-eafit.jpg?time=1568339400')">
+            </div>
+            <!-- Slide Two - Set the background image for this slide in the line below -->
+            <div class="carousel-item"
+                 style="background-image: url('https://grupocaisa.com/wp-content/uploads/2019/05/ALEGRA-PENTHOUSE-JURIQUILLA-1900x1080.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2 style="color:black">Tu casa ideal</h2>
+                    <h3 style="color:black">Con la mayor tranquilidad.</h3>
+                </div>
+            </div>
+            <!-- Slide Three - Set the background image for this slide in the line below -->
+            <div class="carousel-item"
+                 style="background-image: url('http://apexlegal.es/wp-content/uploads/2019/01/mundo-estrategia-de-branding-y-comunicacion-de-marca-en-internet.jpg')">
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>IoT</h2>
+                    <h3>En cualquier lugar a cualquier hora.</h3>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</header>
+<!-- Header-->
+
+<!-- /container -->
+<div class="container">
+
+    <h1 class="my-4">Casa Domotica </h1>
+
+    <!-- Portfolio Section -->
+    <h2>Caracteristicas</h2>
+
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <img class="card-img-top"
+                     src="https://cdn.searchenginejournal.com/wp-content/uploads/2017/01/Ok-Google...--700x400.png"
+                     alt="">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <h3 style="color: blue">Control por voz</h3>
+                    </h3>
+                    <p class="card-text">Siempre que quieras, podras utilizar a tu asistente de google para activar o
+                        desactivar todo en la casa!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <img class="card-img-top"
+                     src="https://blogs.bmc.com/wp-content/uploads/2016/10/smart-homes-and-systems-700x400.png"
+                     alt="">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <h3 style="color: blue">Internet de las cosas</h3>
+                    </h3>
+                    <p class="card-text">Podras monitorizar lo que pasa en tiempo real para estar al tanto y evitar
+                        accidentes, siempre podras hacer lo que quieras, cuando
+                        quieras!.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <img class="card-img-top"
+                     src="https://comunidadblogger.net/wp-content/uploads/2019/10/IMG-TI-para-seguridad-y-ahorro-en-hogar.png"
+                     alt="">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <h3 style="color: blue">Seguridad para el hogar</h3>
+                    </h3>
+                    <p class="card-text">Una de las cosas que mas preocupa a las personas es la seguridad en sus
+                        hogares, pero con nuestro proyecto podemos demostrar como esto puede cambiar con un poco de IoT. Dejaste
+                        las llaves adentro? No te preocupes con tu celular podras abrir la puerta. Fuga de gas en la
+                        cocina? Nosotros te avisaremos para evitar accidentes.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <img class="card-img-top"
+                     src="https://saposyprincesas.elmundo.es/wp-content/uploads/2017/08/juegos-para-aprende-las-letras-cover-700x400.jpg"
+                     alt="">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <h3 style="color: blue">App de facil edicion</h3>
+                    </h3>
+                    <p class="card-text">Esto que estas viendo, a sido desarrollado con uno de los lenguajes de
+                        programacion que mas uso esta teniendo, PYTHON, con ayuda de flask para el entorno web y ademas
+                        para que todo se vea bien, BootsTrap!.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+</div>
+{% endblock %}

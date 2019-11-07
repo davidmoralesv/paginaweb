@@ -1,0 +1,82 @@
+{% extends "baseTemplate.html" %} 
+
+{% block content %}
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3">Estado de las Puertas
+        <small>Peatonal y Garaje</small>
+    </h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Puertas</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 col-sm-4 portfolio-item">
+            <div class="card h-60">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <center>Puerta Peatonal</center>
+                    </h4>
+                    <div >
+                        <center><input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-size="large"></center>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-sm-4 portfolio-item">
+            <div class="card h-60">
+                <div class="card-body" >
+                    <h4 class="card-title">
+                        <center>Garaje</center>
+                    </h4>
+                    <div >
+                        <center><input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-size="large"></center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <br>
+    <br>
+    <br>
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link" href="/controlBaños.html" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="/templates/controlCuartos.html">1</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="/templates/controlBaños.html">2</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="/templates/controlPuerta.html">3</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="/templates/controlSalaCocina.html">4</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="/templates/controlEstadisticas.html">5</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="/templates/controlSalaCocina.html" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+
+</div>
+<br>
+<br>
+<br>
+<!-- /.container -->
+{% endblock %}
