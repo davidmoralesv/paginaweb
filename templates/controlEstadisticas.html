@@ -24,113 +24,134 @@
                         <center>
                             <div id="wrapper">
                                 <div id="termometer">
-                                    <div id="temperature" style="height:0" data-value="0°C"></div>
-                                    <div id="graduations"></div>
+                                    <div id="temperature" style="height:{{valores_estadisticas[" height
+                                    "]}}%" data-value={{valores_estadisticas["data_value"]}}°C>
                                 </div>
-
-                                <div id="playground">
-                                    <div id="range">
-                                        <input id="minTemp" type="text" value="-20">
-                                        <input type="range" min="-20" max="50" value="42">
-                                        <input id="maxTemp" type="text" value="50">
-                                    </div>
-                                    <p id="unit">Celcius C°</p>
-                                </div>
+                                <div id="graduations"></div>
                             </div>
-                        </center>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-sm-6 col-sm-3 portfolio-item">
-            <div class="card h-60">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <center>Humedad</center>
-                    </h4>
-                    <div>
-                        <center>Poner grafico o algo de humedad</center>
-                        <center>
-                            <div>
-                                <div id="empty-space"></div>
-                                <div id="wrapper2" class="wrapper">
+                            <div id="playground">
+                                <div id="range">
+                                    <input id="minTemp" type="text" value="-20">
+                                    <input type="range" min="-20" max="50" value={{valores_estadisticas["data_value"]}}>
+                                    <input id="maxTemp" type="text" value="50">
                                 </div>
-
-                                <button class="btn btn-success" id="onetext" onclick="setOneText()">Set one text
-                                </button>
-                                <button class="btn btn-success" id="twotext" onclick="setTwoText()">Set two texts
-                                </button>
-                                <br>
-                                <button class="btn btn-success" id="high" onclick="high()">High</button>
-                                <button class="btn btn-success" id="mid" onclick="mid()">Mid</button>
-                                <button class="btn btn-success" id="low" onclick="low()">Low</button>
+                                <p id="unit">Celcius C°</p>
                             </div>
-                        </center>
+                    </div>
+                    </center>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-sm-6 col-sm-3 portfolio-item">
-            <div class="card h-60">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <center>Polucion</center>
-                    </h4>
-                    <div>
-                        <center>Poner grafico o algo de polucion</center>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-sm-6 col-sm-3 portfolio-item">
-            <div class="card h-60">
-                <div class="card-body">
-                    <h4 class="card-title">
-                        <center>Alarma por polucion</center>
-                    </h4>
-                    <div>
-                        <center>Poner una alarma o algo, puede sonar ¿?</center>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-lg-6 col-sm-6 col-sm-3 portfolio-item">
+        <div class="card h-60">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <center>Humedad</center>
+                </h4>
+                <div>
+                    <center>Poner grafico o algo de humedad</center>
+                    <center>
+                        <div id="mydiv">
+                            <div id="empty-space"></div>
+                            <div id="wrapper2" class="wrapper">
+                            </div>
 
-    <!-- Pagination -->
-    <br>
-    <br>
-    <br>
-    <ul class="pagination justify-content-center">
-        <li class="page-item">
-            <a class="page-link" href="/controlSalaCocina.html" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-            </a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="/templates/controlCuartos.html">1</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="/templates/controlBaños.html">2</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="/templates/controlPuerta.html">3</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="/templates/controlSalaCocina.html">4</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="/templates/controlEstadisticas.html">5</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="/templates/controlCuartos.html" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
-            </a>
-        </li>
-    </ul>
+
+                            <br>
+
+                            <button class="btn btn-success" id="custom" style="height:0;background-color:#fff; border-color:#fff"
+                                    onclick="custom({{valores_estadisticas[" valor_humedad
+                            "]}})">Custom
+                            </button>
+                        </div>
+                    </center>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12 col-sm-12 portfolio-item">
+        <div class="card h-60">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <center>Polucion</center>
+                </h4>
+                <div>
+                    <center>
+                        <h4>Calidad del aire: {{valores_estadisticas["valor_polucion"]}}
+
+                            {% if valores_estadisticas["valor_polucion"] < 100 %}
+
+                            Buena
+
+                            {% elseif matrixBlock.type == "image" %}
+
+                            {{ matrixBlock.image[0].getImg() }}
+
+                            {% else %}
+
+                            <p>A font walks into a bar.</p>
+                            <p>The bartender says, “Hey, we don’t serve your type in here!”</p>
+
+                            {% endif %}
+                        </h4>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12 col-sm-12 portfolio-item">
+        <div class="card h-60">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <center>Alarma por contaminacion</center>
+                </h4>
+                <div>
+                    <center>
+                        <div class="wrapper3">
+                            <button class="btn-sonar">ALARMA</button>
+                            <source src="static/sounds/alarma.mp3" type="audio/mpeg">
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+<ul class="pagination justify-content-center">
+    <li class="page-item">
+        <a class="page-link" href="/SalaYCocina" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+        </a>
+    </li>
+    <li class="page-item">
+        <a class="page-link" href="/Cuartos">1</a>
+    </li>
+    <li class="page-item">
+        <a class="page-link" href="/Baños">2</a>
+    </li>
+    <li class="page-item">
+        <a class="page-link" href="/Puertas">3</a>
+    </li>
+    <li class="page-item">
+        <a class="page-link" href="/SalaYCocina">4</a>
+    </li>
+    <li class="page-item">
+        <a class="page-link" style="color:black">5</a>
+    </li>
+    <li class="page-item">
+        <a class="page-link" href="/Cuartos" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+        </a>
+    </li>
+</ul>
 
 </div>
 <!-- /.container -->

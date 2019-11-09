@@ -200,7 +200,7 @@ console.clear();
       this.behindArrow = this.bodyGroup.append('text').attr('id', 'behind-arrow');
 
       if (this.lookupTableValueEnabled) {
-        this.lookupTableValueBehindText = this.bodyGroup.append('text').attr('id', 'lookup-value-behind-text');
+        this.lookupTableValueBehindText = this.bodyGroup.append('text').attr('id', 'lookup-value-behind-text').attr('display','none');
       }
 
       if (this.changeRateValueEnabled) {
@@ -214,7 +214,7 @@ console.clear();
       this.overlayArrow = this.waveGroup.append('text').attr('id', 'overlay-arrow');
 
       if (this.lookupTableValueEnabled) {
-        this.lookupTableValueOverlayText = this.waveGroup.append('text').attr('id', 'lookup-value-overlay-text');
+        this.lookupTableValueOverlayText = this.waveGroup.append('text').attr('id', 'lookup-value-overlay-text').attr('display','none');
       }
 
       if (this.changeRateValueEnabled) {
@@ -222,8 +222,8 @@ console.clear();
       }
 
       this.supportLabelGroup = this.bodyGroup.append('g').attr('id', 'support-label-group');
-      this.supportLabelBg = this.supportLabelGroup.append('rect').attr('id', 'support-label-bg');
-      this.supportLabel = this.supportLabelGroup.append('text').attr('id', 'overlay-support-label');
+      this.supportLabelBg = this.supportLabelGroup.append('rect').attr('id', 'support-label-bg').attr('display','none');
+      this.supportLabel = this.supportLabelGroup.append('text').attr('id', 'overlay-support-label').attr('display','none');
       this.topSupportLabel = this.supportLabelGroup.append('text').attr('id', 'top-overlay-support-label');
 
       this.topMarkerLabel = this.bodyGroup.append('text').attr('id', 'top-marker-label');
@@ -263,7 +263,7 @@ console.clear();
       this.overlayArrow = this.waveGroup.append('text').attr('id', 'overlay-arrow');
 
       if (this.lookupTableValueEnabled) {
-        this.lookupTableValueOverlayText = this.waveGroup.append('text').attr('id', 'lookup-value-overlay-text');
+        this.lookupTableValueOverlayText = this.waveGroup.append('text').attr('id', 'lookup-value-overlay-text').attr('display','none');
       }
 
       if (this.changeRateValueEnabled) {
@@ -1106,9 +1106,9 @@ console.clear();
       this.animateNewHeight(val);
     }
 
-    updateLookupTableValue (val) {
-      this.lookupTableValue = val;
-    }
+//    updateLookupTableValue (val) {
+//      this.lookupTableValue = val;
+//    }
 
     updateChangeRateValue (val) {
       this.changeRateValue = val;
@@ -1389,18 +1389,18 @@ let thresholds = [
 
 let options = {
   tankType: 'tower',
-  fillValue: 55,
-  fillUnit: "ft",
+  fillValue: 0,
+  fillUnit: "% RH",
   supportLabelPadding: 5,
   frontFontColor: "#003B42",
   thresholds: thresholds,
-  lookupTableValue: 1700,
-  lookupTableValueUnit: 'gal',
+  lookupTableValue: "",
+  lookupTableValueUnit: '',
   lookupTableValueDecimal: 1,
   changeRateValueDecimal: 3,
   changeRateValueArrowEnabled: true,
-  changeRateValue: 0.3,
-  changeRateValueUnit: 'gal/min'
+  changeRateValue: '',
+  changeRateValueUnit: 'e/E(100)'
 }
 
 let tank = $('.wrapper').analogTank(options);
@@ -1474,6 +1474,10 @@ function mid() {
 function low() {
   tank.updateHeight(0);
 }
+function custom(value){
+tank.updateHeight(value);
+}
+
 function addArrow() {
   tank.updateArrow({ enable: true });
 }
@@ -1526,5 +1530,6 @@ function destroy() {
   tank.destroy();
 }
 function updateLookupTableValue() {
+
   tank.updateLookupTableValue(parseInt(Math.random()*1000))
 }

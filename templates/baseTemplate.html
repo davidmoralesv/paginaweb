@@ -2,70 +2,68 @@
 <html lang="es">
 
     <head>
+        <!-- meta-->
+        <div>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
+        </div>
 
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
+        <!-- Titulo-->
         <title>Casa Domotica</title>
-
 
         <!-- Favicon-->
         <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}">
-        <!-- Favicon-->
-
 
         <!-- Custom styles-->
-
             <link rel="stylesheet" href="{{ url_for("static",filename="css/modern-business.css")}}">
             <link rel="stylesheet" href="{{ url_for("static",filename="css/bootstrap.min.css")}}">
             <link rel="stylesheet" href="{{ url_for("static",filename="css/bootstrap-toggle.min.css")}}">
             <link rel="stylesheet" href="{{ url_for("static",filename="css/termometer.css")}}">
             <link rel="stylesheet" href="{{ url_for("static",filename="css/tank.css")}}">
-
-        <!-- Custom styles-->
+            <link rel="stylesheet" href="{{ url_for("static",filename="css/alarma.css")}}">
 
     </head>
-
-
-
 
     <body>
 
         <!-- Navigation Bar-->
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+         <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="/templates/index.html">MENU</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/templates/index.html">Inicio</a>
+                        <li class="nav-item dropdown">
+                            <a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Inicio
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio" style="background-color:grey">
+                                <a class="dropdown-item" href="/" >Inicio</a>
+                                <a class="dropdown-item" href="/r" >Recargar</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a style="color: white" class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Controles
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                                <a class="dropdown-item" href="/templates/controlCuartos.html">Cuartos</a>
-                                <a class="dropdown-item" href="/templates/controlBaños.html">Baños</a>
-                                <a class="dropdown-item" href="/templates/controlSalaCocina.html">Sala y Cocina</a>
-                                <a class="dropdown-item" href="/templates/controlPuerta.html">Puerta</a>
-                                <a class="dropdown-item" href="/templates/controlEstadisticas.html">Estadisticas</a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio" style="background-color:grey">
+                                <a class="dropdown-item" href="/Cuartos" >Cuartos</a>
+                                <a class="dropdown-item" href="/Baños" >Baños</a>
+                                <a class="dropdown-item" href="/SalaYCocina" >Sala y Cocina</a>
+                                <a class="dropdown-item" href="/Puertas" >Puertas y Dispositivos</a>
+                                <a class="dropdown-item" href="/Estadisticas">Estadisticas</a>
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/templates/about.html">About</a>
+                            <a style="color: white" class="nav-link" href="/About">About</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Navigation Bar-->
-
 
         {% block content %}{% endblock %}
 
@@ -76,32 +74,18 @@
             </div>
             <!-- /.container -->
         </footer>
-        <!-- Footer -->
 
 
-        <!-- Script -->
+        <!-- Scripts -->
         <div>
-           <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-                    crossorigin="anonymous">
-            </script>-->
             <script src="{{ url_for('static', filename="js/jquery.min.js")}}"></script>
-            <script src="{{ url_for('static', filename="js/bootstrap.bundle.min.js")}}"></script>
-            <script src="{{ url_for('static', filename="js/termometro.js")}}"></script>
-            <script src="https://d3js.org/d3.v4.js" crossorigin="anonymous"></script>
+            <script src="{{ url_for('static', filename="js/bootstrap-toggle.min.js")}}"></script>
+            <script src="{{ url_for('static', filename="js/postcheckbox.js")}}"></script>
+            <script src="{{ url_for('static', filename="js/popper.js")}}"></script>
+            <script src="{{ url_for('static', filename="js/d3.min.js")}}"></script>
             <script src="{{ url_for('static', filename="js/tank.js")}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-                    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                    crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-                    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-                    crossorigin="anonymous">
-            </script>
-            <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-            <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+            <script src="{{ url_for('static', filename="js/estadisticas.js")}}"></script>
+            <script src="{{ url_for('static', filename="js/bootstrap.bundle.min.js")}}"></script>
         </div>
     </body>
-
-
-
 </html>
