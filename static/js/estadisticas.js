@@ -1,12 +1,3 @@
-/*
-function countMyself() {
-    // Check to see if the counter has been initialized
-    if ( typeof countMyself.counter == 'undefined' ) {
-        // It has not... perform the initialization
-        countMyself.counter = 0;
-    }
-    return ++countMyself.counter;
-}*/
 function estadistica(){
     $.ajax({
       type: "POST",
@@ -16,7 +7,6 @@ function estadistica(){
     })
     .done(function(value){
         humedad = value.valor_humedad;
-//        humedad = humedad + countMyself();
         humedad = humedad;
         console.log(humedad)
         $("#customer").click(function(){
@@ -24,9 +14,6 @@ function estadistica(){
         });
 
         $("#customer").click();
-
-     /*   grados = value.data_value+countMyself()+"°C";
-        altura = value.height+countMyself()+"%";*/
 
         grados = value.data_value+"°C";
         altura = value.height+"%";

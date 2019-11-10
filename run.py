@@ -1,24 +1,17 @@
 import time
 
 import requests
-from flask import Flask, render_template, request, session, url_for
-from flask_sessionstore import Session
+from flask import Flask, render_template, request, url_for
 from ubidots import ApiClient
 from werkzeug.utils import redirect
 
 app = Flask(__name__)
-# SESSION_TYPE = 'redis'
-# app.config.from_object(__name__)
-# Session(app)
 
 token = ""
 api = None
 diccionario_valores = {}
 instancias_ubidots = []
 nombre_dispositivos = []
-metodo_puerta1, metodo_foco_cuarto1, metodo_foco_sala, metodo_foco_cocina = None, None, None, None
-metodo_foco_cuarto2, metodo_foco_baño1, metodo_monitor1, metodo_ventilador = None, None, None, None
-metodo_humedad, metodo_polucion, metodo_temperatura = None, None, None
 
 
 @app.route("/")
@@ -103,9 +96,9 @@ def salaCocina():
 @app.route("/Estadisticas", methods=['GET', 'POST'])
 def estadisticas():
     try:
-        valor_humedad = metodo_humedad.get_values(1)[0].get("value")
-        valor_temperatura = metodo_temperatura.get_values(1)[0].get("value")
-        valor_polucion = metodo_polucion.get_values(1)[0].get("value")
+        valor_humedad = instancias_ubidots[5].get_values(1)[0].get("value")
+        valor_temperatura = instancias_ubidots[9].get_values(1)[0].get("value")
+        valor_polucion = instancias_ubidots[7].get_values(1)[0].get("value")
 
         height = ((valor_temperatura + 20) / 70) * 100
         data_value = valor_temperatura
@@ -157,43 +150,47 @@ def crear_token():
         error = "Se excedió el número de intentos para obtener un token válido"
         return redirect(url_for("error", error=error))
 
-    print(req.json().get("token"))
     return req.json().get("token")
 
 
 def get_values():
-    diccionario_valores["puerta1"] = metodo_puerta1.get_values(1)[0].get("value")
-    diccionario_valores["foco_cuarto1"] = metodo_foco_cuarto1.get_values(1)[0].get("value")
-    diccionario_valores["foco_sala"] = metodo_foco_sala.get_values(1)[0].get("value")
-    diccionario_valores["foco_cocina"] = metodo_foco_cocina.get_values(1)[0].get("value")
-    diccionario_valores["foco_cuarto2"] = metodo_foco_cuarto2.get_values(1)[0].get("value")
-    diccionario_valores["foco_baño1"] = metodo_foco_baño1.get_values(1)[0].get("value")
-    diccionario_valores["monitor1"] = metodo_monitor1.get_values(1)[0].get("value")
-    diccionario_valores["ventilador"] = metodo_ventilador.get_values(1)[0].get("value")
+    diccionario_valores["foco_baño1"] = instancias_ubidots[0].get_values(1)[0].get("value")
+    diccionario_valores["foco_cocina"] = instancias_ubidots[1].get_values(1)[0].get("value")
+    diccionario_valores["foco_cuarto1"] = instancias_ubidots[2].get_values(1)[0].get("value")
+    diccionario_valores["foco_cuarto2"] = instancias_ubidots[3].get_values(1)[0].get("value")
+    diccionario_valores["foco_sala"] = instancias_ubidots[4].get_values(1)[0].get("value")
+    diccionario_valores["monitor1"] = instancias_ubidots[6].get_values(1)[0].get("value")
+    diccionario_valores["puerta1"] = instancias_ubidots[8].get_values(1)[0].get("value")
+    diccionario_valores["ventilador"] = instancias_ubidots[10].get_values(1)[0].get("value")
 
     return diccionario_valores
 
 
 def get_ids():
     diccionario_ids = {
-        "id_puerta1": "5ceb3ce41d84724e6678ba07",
-        "id_foco_cuarto1": "5ceb3d3e1d84724e50e3cab2",
-        "id_foco_sala": "5ceb3c9e1d84724ea4df3a5f",
-        "id_foco_cocina": "5ceb3c961d84724b7e9536c2",
-        "id_foco_cuarto2": "5ceb3d331d84724e50e3caac",
         "id_foco_baño1": "5ceb3cbf1d84724f01cccfe8",
-        "id_monitor1": "5ceb43381d847252582bf1a3",
-        "id_ventilador": "5ceb3cd61d84724f32e0d38b",
+        "id_foco_cocina": "5ceb3c961d84724b7e9536c2",
+        "id_foco_cuarto1": "5ceb3d3e1d84724e50e3cab2",
+        "id_foco_cuarto2": "5ceb3d331d84724e50e3caac",
+        "id_foco_sala": "5ceb3c9e1d84724ea4df3a5f",
         "id_humedad": "5ceb3dd41d84724f01cccff9",
+        "id_monitor1": "5ceb43381d847252582bf1a3",
+        "id_polucion": "5ceb3de91d84724a855230fc",
+        "id_puerta1": "5ceb3ce41d84724e6678ba07",
         "id_temperatura": "5ceb3dcf1d8472502f76df2b",
-        "id_polucion": "5ceb3de91d84724a855230fc"
+        "id_ventilador": "5ceb3cd61d84724f32e0d38b"
     }
     return diccionario_ids
 
 
+def get_nombre_dispositivos():
+    nombre_dis = ["foco_baño1", "foco_cocina", "foco_cuarto1", "foco_cuarto2", "foco_sala", "humedad",
+                  "monitor1", "polucion", "puerta1", "temperatura", "ventilador"]
+    return nombre_dis
+
+
 def obtener_instancias():
-    global token, api, metodo_puerta1, metodo_foco_cuarto1, metodo_foco_sala, metodo_foco_cocina
-    global metodo_foco_cuarto2, metodo_foco_baño1, metodo_monitor1, metodo_ventilador, metodo_temperatura, metodo_humedad, metodo_polucion
+    global token, api
     global diccionario_valores
     global instancias_ubidots, nombre_dispositivos
 
@@ -202,43 +199,13 @@ def obtener_instancias():
     api = ApiClient(token=token, base_url="http://industrial.api.ubidots.com/api/v1.6/")
 
     try:
-        metodo_puerta1 = api.get_variable(get_ids().get("id_puerta1"))
-        instancias_ubidots.append(metodo_puerta1)
-        nombre_dispositivos.append("puerta1")
+        lista_ids = [*get_ids().values()]
+        nombre_dispositivos = get_nombre_dispositivos()
+        for id in lista_ids:
+            instancias_ubidots.append(api.get_variable(id))
 
-        metodo_foco_cuarto1 = api.get_variable(get_ids().get("id_foco_cuarto1"))
-        instancias_ubidots.append(metodo_foco_cuarto1)
-        nombre_dispositivos.append("foco_cuarto1")
-
-        metodo_foco_sala = api.get_variable(get_ids().get("id_foco_sala"))
-        instancias_ubidots.append(metodo_foco_sala)
-        nombre_dispositivos.append("foco_sala")
-
-        metodo_foco_cocina = api.get_variable(get_ids().get("id_foco_cocina"))
-        instancias_ubidots.append(metodo_foco_cocina)
-        nombre_dispositivos.append("foco_cocina")
-
-        metodo_foco_cuarto2 = api.get_variable(get_ids().get("id_foco_cuarto2"))
-        instancias_ubidots.append(metodo_foco_cuarto2)
-        nombre_dispositivos.append("foco_cuarto2")
-
-        metodo_foco_baño1 = api.get_variable(get_ids().get("id_foco_baño1"))
-        instancias_ubidots.append(metodo_foco_baño1)
-        nombre_dispositivos.append("foco_baño1")
-
-        metodo_monitor1 = api.get_variable(get_ids().get("id_monitor1"))
-        instancias_ubidots.append(metodo_monitor1)
-        nombre_dispositivos.append("monitor1")
-
-        metodo_ventilador = api.get_variable(get_ids().get("id_ventilador"))
-        instancias_ubidots.append(metodo_ventilador)
-        nombre_dispositivos.append("ventilador")
-
-        metodo_humedad = api.get_variable(get_ids().get("id_humedad"))
-        metodo_temperatura = api.get_variable(get_ids().get("id_temperatura"))
-        metodo_polucion = api.get_variable(get_ids().get("id_polucion"))
     except Exception as e:
-        error = "Hubo un error obteniendo las instancias de ubidots"
+        error = "Hubo un error obteniendo las instancias de ubidots."
         return redirect(url_for("error", error=error))
 
 
