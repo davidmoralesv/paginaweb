@@ -4,7 +4,11 @@
     <br><br><br><br>
     <center>
         <h4>
-            Se ha encontrado un error o la pagina a la que ha ingresado no existe
+            {%if error == None%}
+            La página solicitada no existe
+            {%else%}
+            {{error}}
+            {%endif%}
         </h4>
         <br>
         <a href="/">Click aqui para ir al inicio</a>

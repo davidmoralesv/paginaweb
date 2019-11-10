@@ -1,10 +1,16 @@
 import time
 
 import requests
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, url_for
+from flask_sessionstore import Session
 from ubidots import ApiClient
+from werkzeug.utils import redirect
 
 app = Flask(__name__)
+# SESSION_TYPE = 'redis'
+# app.config.from_object(__name__)
+# Session(app)
+
 token = ""
 api = None
 diccionario_valores = {}
@@ -17,11 +23,6 @@ metodo_humedad, metodo_polucion, metodo_temperatura = None, None, None
 
 @app.route("/")
 def index():
-    return render_template("index.html")
-
-
-@app.route("/r")
-def reload():
     obtener_instancias()
     get_values()
     return render_template("index.html")
@@ -101,15 +102,19 @@ def salaCocina():
 
 @app.route("/Estadisticas", methods=['GET', 'POST'])
 def estadisticas():
-    valor_humedad = metodo_humedad.get_values(1)[0].get("value")
-    valor_temperatura = metodo_temperatura.get_values(1)[0].get("value")
-    valor_polucion = metodo_polucion.get_values(1)[0].get("value")
+    try:
+        valor_humedad = metodo_humedad.get_values(1)[0].get("value")
+        valor_temperatura = metodo_temperatura.get_values(1)[0].get("value")
+        valor_polucion = metodo_polucion.get_values(1)[0].get("value")
 
-    height = ((valor_temperatura + 20) / 70) * 100
-    data_value = valor_temperatura
+        height = ((valor_temperatura + 20) / 70) * 100
+        data_value = valor_temperatura
 
-    valores = {"valor_humedad": valor_humedad, "height": height, "data_value": data_value,
-               "valor_polucion": valor_polucion}
+        valores = {"valor_humedad": valor_humedad, "height": height, "data_value": data_value,
+                   "valor_polucion": valor_polucion}
+    except Exception as e:
+        error = "Hubo un error obteniendo los valores del API de ubidots"
+        return redirect(url_for("error", error=error))
 
     if request.method == "POST":
         return valores
@@ -123,9 +128,11 @@ def about():
     return render_template("about.html")
 
 
-@app.errorhandler(404)
-def not_found(e):
-    return render_template("Error.html")
+@app.errorhandler(Exception)
+@app.route("/Error")
+def error(e):
+    error = request.args.get('error')
+    return render_template("error.html", error=error)
 
 
 def crear_token():
@@ -134,18 +141,23 @@ def crear_token():
 
     url = 'https://industrial.api.ubidots.com/api/v1.6/auth/token'
     headers = {"x-ubidots-apikey": "BBFF-f982452f59fb11f99b8ab4ef539b2f1413f", "Content-Type": "application/json"}
+    req = {}
+    try:
+        while status >= 400 and attempts <= 5:
+            req = requests.post(url=url, headers=headers)
+            status = req.status_code
+            attempts += 1
+            if status >= 400:
+                time.sleep(1)
 
-    while status >= 400 and attempts <= 5:
-        req = requests.post(url=url, headers=headers)
-        status = req.status_code
-        attempts += 1
-        if status >= 400:
-            time.sleep(1)
-
+    except Exception as e:
+        error = "Hubo un error intentando obtener el token"
+        return redirect(url_for("error", error=error))
     if status >= 400:
-        print("Error, no puedo enviar los datos después de 5 intentos")
-        return False
+        error = "Se excedió el número de intentos para obtener un token válido"
+        return redirect(url_for("error", error=error))
 
+    print(req.json().get("token"))
     return req.json().get("token")
 
 
@@ -189,49 +201,57 @@ def obtener_instancias():
         token = crear_token()
     api = ApiClient(token=token, base_url="http://industrial.api.ubidots.com/api/v1.6/")
 
-    metodo_puerta1 = api.get_variable(get_ids().get("id_puerta1"))
-    instancias_ubidots.append(metodo_puerta1)
-    nombre_dispositivos.append("puerta1")
+    try:
+        metodo_puerta1 = api.get_variable(get_ids().get("id_puerta1"))
+        instancias_ubidots.append(metodo_puerta1)
+        nombre_dispositivos.append("puerta1")
 
-    metodo_foco_cuarto1 = api.get_variable(get_ids().get("id_foco_cuarto1"))
-    instancias_ubidots.append(metodo_foco_cuarto1)
-    nombre_dispositivos.append("foco_cuarto1")
+        metodo_foco_cuarto1 = api.get_variable(get_ids().get("id_foco_cuarto1"))
+        instancias_ubidots.append(metodo_foco_cuarto1)
+        nombre_dispositivos.append("foco_cuarto1")
 
-    metodo_foco_sala = api.get_variable(get_ids().get("id_foco_sala"))
-    instancias_ubidots.append(metodo_foco_sala)
-    nombre_dispositivos.append("foco_sala")
+        metodo_foco_sala = api.get_variable(get_ids().get("id_foco_sala"))
+        instancias_ubidots.append(metodo_foco_sala)
+        nombre_dispositivos.append("foco_sala")
 
-    metodo_foco_cocina = api.get_variable(get_ids().get("id_foco_cocina"))
-    instancias_ubidots.append(metodo_foco_cocina)
-    nombre_dispositivos.append("foco_cocina")
+        metodo_foco_cocina = api.get_variable(get_ids().get("id_foco_cocina"))
+        instancias_ubidots.append(metodo_foco_cocina)
+        nombre_dispositivos.append("foco_cocina")
 
-    metodo_foco_cuarto2 = api.get_variable(get_ids().get("id_foco_cuarto2"))
-    instancias_ubidots.append(metodo_foco_cuarto2)
-    nombre_dispositivos.append("foco_cuarto2")
+        metodo_foco_cuarto2 = api.get_variable(get_ids().get("id_foco_cuarto2"))
+        instancias_ubidots.append(metodo_foco_cuarto2)
+        nombre_dispositivos.append("foco_cuarto2")
 
-    metodo_foco_baño1 = api.get_variable(get_ids().get("id_foco_baño1"))
-    instancias_ubidots.append(metodo_foco_baño1)
-    nombre_dispositivos.append("foco_baño1")
+        metodo_foco_baño1 = api.get_variable(get_ids().get("id_foco_baño1"))
+        instancias_ubidots.append(metodo_foco_baño1)
+        nombre_dispositivos.append("foco_baño1")
 
-    metodo_monitor1 = api.get_variable(get_ids().get("id_monitor1"))
-    instancias_ubidots.append(metodo_monitor1)
-    nombre_dispositivos.append("monitor1")
+        metodo_monitor1 = api.get_variable(get_ids().get("id_monitor1"))
+        instancias_ubidots.append(metodo_monitor1)
+        nombre_dispositivos.append("monitor1")
 
-    metodo_ventilador = api.get_variable(get_ids().get("id_ventilador"))
-    instancias_ubidots.append(metodo_ventilador)
-    nombre_dispositivos.append("ventilador")
+        metodo_ventilador = api.get_variable(get_ids().get("id_ventilador"))
+        instancias_ubidots.append(metodo_ventilador)
+        nombre_dispositivos.append("ventilador")
 
-    metodo_humedad = api.get_variable(get_ids().get("id_humedad"))
-    metodo_temperatura = api.get_variable(get_ids().get("id_temperatura"))
-    metodo_polucion = api.get_variable(get_ids().get("id_polucion"))
+        metodo_humedad = api.get_variable(get_ids().get("id_humedad"))
+        metodo_temperatura = api.get_variable(get_ids().get("id_temperatura"))
+        metodo_polucion = api.get_variable(get_ids().get("id_polucion"))
+    except Exception as e:
+        error = "Hubo un error obteniendo las instancias de ubidots"
+        return redirect(url_for("error", error=error))
 
 
 def setear_valores():
     nombre = request.form.to_dict().get("nombre")
     estado = request.form.to_dict().get("estado")
 
-    for instancia, nom_dispositivo in zip(instancias_ubidots, nombre_dispositivos):
-        if nombre == nom_dispositivo:
-            valor = 1.0 if (estado == 'true') else 0.0
-            instancia.save_value({'value': valor})
-            diccionario_valores[nom_dispositivo] = valor
+    try:
+        for instancia, nom_dispositivo in zip(instancias_ubidots, nombre_dispositivos):
+            if nombre == nom_dispositivo:
+                valor = 1.0 if (estado == 'true') else 0.0
+                instancia.save_value({'value': valor})
+                diccionario_valores[nom_dispositivo] = valor
+    except Exception as e:
+        error = "Hubo un error guardando los valores en ubidots"
+        return redirect(url_for("error", error=error))

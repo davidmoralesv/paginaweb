@@ -1,4 +1,4 @@
-
+/*
 function countMyself() {
     // Check to see if the counter has been initialized
     if ( typeof countMyself.counter == 'undefined' ) {
@@ -6,7 +6,7 @@ function countMyself() {
         countMyself.counter = 0;
     }
     return ++countMyself.counter;
-}
+}*/
 function estadistica(){
     $.ajax({
       type: "POST",
@@ -16,19 +16,22 @@ function estadistica(){
     })
     .done(function(value){
         humedad = value.valor_humedad;
-        humedad = humedad + countMyself();
+//        humedad = humedad + countMyself();
+        humedad = humedad;
         console.log(humedad)
         $("#customer").click(function(){
             custom(humedad);
         });
+
         $("#customer").click();
 
-        grados = value.data_value+countMyself()+"°C";
-        altura = value.height+countMyself()+"%";
+     /*   grados = value.data_value+countMyself()+"°C";
+        altura = value.height+countMyself()+"%";*/
+
+        grados = value.data_value+"°C";
+        altura = value.height+"%";
 
         $("#temperature").height(altura).attr("data-value", grados);
-
-
     });
 }
 
