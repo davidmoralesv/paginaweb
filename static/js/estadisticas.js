@@ -1,3 +1,12 @@
+
+function countMyself() {
+    // Check to see if the counter has been initialized
+    if ( typeof countMyself.counter == 'undefined' ) {
+        // It has not... perform the initialization
+        countMyself.counter = 0;
+    }
+    return ++countMyself.counter;
+}
 function estadistica(){
     $.ajax({
       type: "POST",
@@ -5,18 +14,22 @@ function estadistica(){
       dataType: "json",
       contentType: "application/json;charset=utf-8"
     })
-    const units = {
-	Celcius: "°C",
-	Fahrenheit: "°F"
-    };
+    .done(function(value){
+        humedad = value.valor_humedad;
+        humedad = humedad + countMyself();
+        console.log(humedad)
+        $("#customer").click(function(){
+            custom(humedad);
+        });
+        $("#customer").click();
 
-    const config = {
-	minTemp: -20,
-	maxTemp: 50,
-	unit: "Celcius"
-    };
+        grados = value.data_value+countMyself()+"°C";
+        altura = value.height+countMyself()+"%";
 
-    $("#custom").click();
+        $("#temperature").height(altura).attr("data-value", grados);
+
+
+    });
 }
 
 $(document).ready(function(){

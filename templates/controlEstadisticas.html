@@ -24,8 +24,7 @@
                         <center>
                             <div id="wrapper">
                                 <div id="termometer">
-                                    <div id="temperature" style="height:{{valores_estadisticas[" height
-                                    "]}}%" data-value={{valores_estadisticas["data_value"]}}°C>
+                                    <div id="temperature" style="height:{{valores_estadisticas["height"]}}%" data-value={{valores_estadisticas["data_value"]}}°C>
                                 </div>
                                 <div id="graduations"></div>
                             </div>
@@ -58,14 +57,8 @@
                             <div id="empty-space"></div>
                             <div id="wrapper2" class="wrapper">
                             </div>
-
-
                             <br>
-
-                            <button class="btn btn-success" id="custom" style="height:0;background-color:#fff; border-color:#fff"
-                                    onclick="custom({{valores_estadisticas[" valor_humedad
-                            "]}})">Custom
-                            </button>
+                            <button class="btn btn-success" id="customer" style="height:5;background-color:#fff; border-color:#fff"/>
                         </div>
                     </center>
 
@@ -87,7 +80,7 @@
 
                             Buena
 
-                            {% elseif matrixBlock.type == "image" %}
+                            {% elif matrixBlock.type == "image" %}
 
                             {{ matrixBlock.image[0].getImg() }}
 
@@ -152,7 +145,6 @@
         </a>
     </li>
 </ul>
-
 </div>
 <!-- /.container -->
 {% endblock %}

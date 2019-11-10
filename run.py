@@ -1,5 +1,6 @@
-import requests
 import time
+
+import requests
 from flask import Flask, render_template, request
 from ubidots import ApiClient
 
@@ -104,12 +105,17 @@ def estadisticas():
     valor_temperatura = metodo_temperatura.get_values(1)[0].get("value")
     valor_polucion = metodo_polucion.get_values(1)[0].get("value")
 
-    height = ((valor_temperatura+20) / 70)*100
+    height = ((valor_temperatura + 20) / 70) * 100
     data_value = valor_temperatura
 
-    valores = {"valor_humedad": valor_humedad, "height": height, "data_value":data_value, "valor_polucion": valor_polucion}
+    valores = {"valor_humedad": valor_humedad, "height": height, "data_value": data_value,
+               "valor_polucion": valor_polucion}
 
-    return render_template("controlEstadisticas.html", valores_estadisticas = valores)
+    if request.method == "POST":
+        return valores
+
+    if request.method == "GET":
+        return render_template("controlEstadisticas.html", valores_estadisticas=valores)
 
 
 @app.route("/About")
