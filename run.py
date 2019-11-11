@@ -96,6 +96,7 @@ def salaCocina():
 @app.route("/Estadisticas", methods=['GET', 'POST'])
 def estadisticas():
     try:
+
         valor_humedad = instancias_ubidots[5].get_values(1)[0].get("value")
         valor_temperatura = instancias_ubidots[9].get_values(1)[0].get("value")
         valor_polucion = instancias_ubidots[7].get_values(1)[0].get("value")
@@ -196,11 +197,14 @@ def obtener_instancias():
 
     if token == "":
         token = crear_token()
-    api = ApiClient(token=token, base_url="http://industrial.api.ubidots.com/api/v1.6/")
+    if api is None:
+        api = ApiClient(token=token, base_url="http://industrial.api.ubidots.com/api/v1.6/")
 
     try:
         lista_ids = [*get_ids().values()]
         nombre_dispositivos = get_nombre_dispositivos()
+        if len(instancias_ubidots) > 0:
+            return
         for id in lista_ids:
             instancias_ubidots.append(api.get_variable(id))
 
