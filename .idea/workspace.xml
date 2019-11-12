@@ -4,6 +4,14 @@
     <list default="true" id="867aea67-f1cc-493e-84f4-d5f36d1c7dec" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/baseTemplate.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/baseTemplate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/controlBaños.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/controlBanos.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/controlCuartos.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/controlCuartos.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/controlEstadisticas.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/controlEstadisticas.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/controlPuerta.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/controlPuerta.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/controlSalaCocina.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/controlSalaCocina.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

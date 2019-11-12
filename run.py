@@ -1,5 +1,5 @@
 import time
-
+import json
 import requests
 from flask import Flask, render_template, request, url_for
 from ubidots import ApiClient
@@ -17,12 +17,12 @@ nombre_dispositivos = []
 @app.route("/")
 def index():
     obtener_instancias()
-    get_values()
     return render_template("index.html")
 
 
 @app.route("/Puertas", methods=['GET', 'POST'])
 def puerta():
+    get_values()
     valor_puerta1 = diccionario_valores.get('puerta1')
     valor_monitor1 = diccionario_valores.get('monitor1')
     valor_ventilador = diccionario_valores.get('ventilador')
@@ -44,6 +44,7 @@ def puerta():
 
 @app.route("/Cuartos", methods=['GET', 'POST'])
 def cuartos():
+    get_values()
     valor_cuarto1 = diccionario_valores.get('foco_cuarto1')
     valor_cuarto2 = diccionario_valores.get('foco_cuarto2')
 
@@ -60,23 +61,25 @@ def cuartos():
     return render_template("controlCuartos.html", valores_cuartos=valores_cuartos)
 
 
-@app.route("/Baños", methods=['GET', 'POST'])
-def baños():
-    valor_baño1 = diccionario_valores.get('foco_baño1')
+@app.route("/Banos", methods=['GET', 'POST'])
+def banos():
+    get_values()
+    valor_bano1 = diccionario_valores.get('foco_bano1')
 
     if request.method == 'POST':
         setear_valores()
-        valor_baño1 = diccionario_valores.get('foco_baño1')
+        valor_bano1 = diccionario_valores.get('foco_bano1')
 
-    valores_baños = {
-        "valor_baño1": valor_baño1
+    valores_banos = {
+        "valor_bano1": valor_bano1
     }
 
-    return render_template("controlBaños.html", valores_baños=valores_baños)
+    return render_template("controlBanos.html", valores_banos=valores_banos)
 
 
 @app.route("/SalaYCocina", methods=['GET', 'POST'])
 def salaCocina():
+    get_values()
     valor_sala = diccionario_valores.get('foco_sala')
     valor_cocina = diccionario_valores.get('foco_cocina')
 
@@ -96,7 +99,7 @@ def salaCocina():
 @app.route("/Estadisticas", methods=['GET', 'POST'])
 def estadisticas():
     try:
-
+        get_values()
         valor_humedad = instancias_ubidots[5].get_values(1)[0].get("value")
         valor_temperatura = instancias_ubidots[9].get_values(1)[0].get("value")
         valor_polucion = instancias_ubidots[7].get_values(1)[0].get("value")
@@ -111,7 +114,7 @@ def estadisticas():
         return redirect(url_for("error", error=error))
 
     if request.method == "POST":
-        return valores
+        return json.dumps(valores)
 
     if request.method == "GET":
         return render_template("controlEstadisticas.html", valores_estadisticas=valores)
@@ -155,7 +158,7 @@ def crear_token():
 
 
 def get_values():
-    diccionario_valores["foco_baño1"] = instancias_ubidots[0].get_values(1)[0].get("value")
+    diccionario_valores["foco_bano1"] = instancias_ubidots[0].get_values(1)[0].get("value")
     diccionario_valores["foco_cocina"] = instancias_ubidots[1].get_values(1)[0].get("value")
     diccionario_valores["foco_cuarto1"] = instancias_ubidots[2].get_values(1)[0].get("value")
     diccionario_valores["foco_cuarto2"] = instancias_ubidots[3].get_values(1)[0].get("value")
@@ -169,44 +172,44 @@ def get_values():
 
 def get_ids():
     diccionario_ids = {
-        "id_foco_baño1": "5ceb3cbf1d84724f01cccfe8",
-        "id_foco_cocina": "5ceb3c961d84724b7e9536c2",
-        "id_foco_cuarto1": "5ceb3d3e1d84724e50e3cab2",
-        "id_foco_cuarto2": "5ceb3d331d84724e50e3caac",
-        "id_foco_sala": "5ceb3c9e1d84724ea4df3a5f",
-        "id_humedad": "5ceb3dd41d84724f01cccff9",
-        "id_monitor1": "5ceb43381d847252582bf1a3",
-        "id_polucion": "5ceb3de91d84724a855230fc",
-        "id_puerta1": "5ceb3ce41d84724e6678ba07",
-        "id_temperatura": "5ceb3dcf1d8472502f76df2b",
-        "id_ventilador": "5ceb3cd61d84724f32e0d38b"
+        "foco_bano1": "5ceb3cbf1d84724f01cccfe8",
+        "foco_cocina": "5ceb3c961d84724b7e9536c2",
+        "foco_cuarto1": "5ceb3d3e1d84724e50e3cab2",
+        "foco_cuarto2": "5ceb3d331d84724e50e3caac",
+        "foco_sala": "5ceb3c9e1d84724ea4df3a5f",
+        "humedad": "5ceb3dd41d84724f01cccff9",
+        "monitor1": "5ceb43381d847252582bf1a3",
+        "polucion": "5ceb3de91d84724a855230fc",
+        "puerta1": "5ceb3ce41d84724e6678ba07",
+        "temperatura": "5ceb3dcf1d8472502f76df2b",
+        "ventilador": "5ceb3cd61d84724f32e0d38b"
     }
     return diccionario_ids
 
 
 def get_nombre_dispositivos():
-    nombre_dis = ["foco_baño1", "foco_cocina", "foco_cuarto1", "foco_cuarto2", "foco_sala", "humedad",
+    nombre_dis = ["foco_bano1", "foco_cocina", "foco_cuarto1", "foco_cuarto2", "foco_sala", "humedad",
                   "monitor1", "polucion", "puerta1", "temperatura", "ventilador"]
     return nombre_dis
 
 
 def obtener_instancias():
-    global token, api
+    global api, token
     global diccionario_valores
     global instancias_ubidots, nombre_dispositivos
 
-    if token == "":
+    if token is "":
         token = crear_token()
+
     if api is None:
         api = ApiClient(token=token, base_url="http://industrial.api.ubidots.com/api/v1.6/")
 
     try:
-        lista_ids = [*get_ids().values()]
         nombre_dispositivos = get_nombre_dispositivos()
         if len(instancias_ubidots) > 0:
             return
-        for id in lista_ids:
-            instancias_ubidots.append(api.get_variable(id))
+        for nombre_dispositivo in nombre_dispositivos:
+            instancias_ubidots.append(api.get_variable(get_ids().get(nombre_dispositivo)))
 
     except Exception as e:
         error = "Hubo un error obteniendo las instancias de ubidots."
@@ -226,3 +229,7 @@ def setear_valores():
     except Exception as e:
         error = "Hubo un error guardando los valores en ubidots"
         return redirect(url_for("error", error=error))
+
+
+if __name__ == '__main__':
+    app.run()
